@@ -11,20 +11,30 @@ import { seoTags } from "../src/lib/seo.js";
 test("el perfil mínimo no deja secciones ni acciones huérfanas", () => {
   const data = {
     about: { paragraphs: [" "] },
-    projects: { items: [{}] },
+    achievements: { items: [{}] },
+    certifications: { items: [{ name: " " }] },
     services: { items: [] },
     skills: { groups: [{ items: [""] }] },
   };
   const sections = getSections(data);
   assert.ok(Object.values(sections).every((value) => value === false));
   assert.equal(
-    resolveAction({ label: "Proyectos", section: "projects" }, sections),
+    resolveAction({ label: "Logros", section: "achievements" }, sections),
     null,
   );
   assert.equal(
-    resolveAction({ label: "Proyectos", url: "#trabajos" }, sections),
+    resolveAction({ label: "Certificaciones", url: "#certificaciones" }, sections),
     null,
   );
+});
+
+test("las nuevas acciones resuelven destinos visibles y rechazan los de Proyectos", () => {
+  const sections = getSections(portfolio);
+  assert.equal(resolveAction({ label: "Logros", section: "achievements" }, sections).href, "#logros");
+  assert.equal(resolveAction({ label: "Certificaciones", section: "certifications" }, sections).href, "#certificaciones");
+  assert.equal(resolveAction({ label: "Proyectos", section: "projects" }, sections), null);
+  assert.equal(resolveAction({ label: "Proyectos", url: "#trabajos" }, sections), null);
+  assert.equal(resolveAction(portfolio.hero.secondaryAction, sections).href, "#recorrido");
 });
 
 test("las opciones de sección prevalecen sobre los datos", () => {

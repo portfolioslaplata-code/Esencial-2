@@ -1,7 +1,8 @@
 export const sectionIds = {
   about: "sobre-mi",
   services: "servicios",
-  projects: "trabajos",
+  achievements: "logros",
+  certifications: "certificaciones",
   journey: "recorrido",
   experience: "experiencia",
   education: "formacion",
@@ -59,8 +60,10 @@ export function getSections(data) {
       ),
     services:
       enabled("services") && namedItems(data.services?.items).length > 0,
-    projects:
-      enabled("projects") && namedItems(data.projects?.items).length > 0,
+    achievements:
+      enabled("achievements") && namedItems(data.achievements?.items).length > 0,
+    certifications:
+      enabled("certifications") && namedItems(data.certifications?.items).length > 0,
     experience,
     education,
     journey: experience || education,

@@ -3,11 +3,12 @@ import assert from "node:assert/strict";
 import { portfolio } from "../src/data/portfolio.js";
 import { getActiveCatalogSections, getContactItems, getContactLinks, getSections } from "../src/lib/portfolio.js";
 
-test("Minimal declara Base y cinco bloques estándar en orden visual, sin complementos", () => {
+test("Minimal declara Base y seis bloques estándar en orden visual, sin complementos", () => {
   const active = getActiveCatalogSections(portfolio);
   assert.deepEqual(portfolio.catalogComposition.base, ["navigation", "hero", "contact", "footer"]);
-  assert.deepEqual(active.map(({ id }) => id), ["about", "services", "projects", "journey", "skills"]);
-  assert.deepEqual(active.map(({ catalogIds }) => catalogIds), [["about"], ["services"], ["projects"], ["experience", "education"], ["skills"]]);
+  assert.equal(portfolio.catalogComposition.sections.length, 6);
+  assert.deepEqual(active.map(({ id }) => id), ["about", "services", "achievements", "journey", "certifications", "skills"]);
+  assert.deepEqual(active.map(({ catalogIds }) => catalogIds), [["about"], ["services"], ["achievements"], ["experience", "education"], ["certifications"], ["skills"]]);
   assert.ok(active.every(({ type, label, catalogIds, activeCatalogIds }) => type === "standard" && label && JSON.stringify(catalogIds) === JSON.stringify(activeCatalogIds)));
   assert.deepEqual(portfolio.catalogComposition.complements, []);
   assert.equal(portfolio.cv, null);
@@ -17,7 +18,8 @@ test("Minimal declara Base y cinco bloques estándar en orden visual, sin comple
 test("los bloques ocultos y vacíos salen del conteo sin alterar la declaración", () => {
   const data = structuredClone(portfolio);
   data.settings.sections.services = false;
-  data.projects.items = [{ name: " " }];
+  data.achievements.items = [{ name: " " }];
+  data.certifications.items = [];
   data.skills.groups = [{ items: [" "] }];
   const declaration = structuredClone(data.catalogComposition);
   assert.deepEqual(getActiveCatalogSections(data).map(({ id }) => id), ["about", "journey"]);
@@ -32,7 +34,7 @@ test("Journey parcial conserva un bloque y expone solamente sus IDs activos", ()
       if (mode === "empty") data[missing] = [];
       else data.settings.sections[missing] = false;
       const active = getActiveCatalogSections(data);
-      assert.equal(active.length, 5);
+      assert.equal(active.length, 6);
       assert.deepEqual(active.find(({ id }) => id === "journey"), {
         id: "journey", type: "standard", label: "Experiencia + Formación",
         catalogIds: ["experience", "education"],
@@ -51,9 +53,30 @@ test("Journey vacío o completamente deshabilitado desaparece del conteo", () =>
       else data.settings.sections[id] = false;
     }
     assert.equal(getSections(data).journey, false);
-    assert.deepEqual(getActiveCatalogSections(data).map(({ id }) => id), ["about", "services", "projects", "skills"]);
+    assert.deepEqual(getActiveCatalogSections(data).map(({ id }) => id), ["about", "services", "achievements", "certifications", "skills"]);
   }
 });
+
+for (const key of ["achievements", "certifications"]) {
+  test(`${key}: visibilidad y conteo responden a datos vacíos, ausentes o deshabilitados`, () => {
+    for (const mode of ["disabled", "empty", "invalid", "missing"]) {
+      const data = structuredClone(portfolio);
+      if (mode === "disabled") data.settings.sections[key] = false;
+      if (mode === "empty") data[key].items = [];
+      if (mode === "invalid") data[key].items = [null, {}, { name: "  ", title: " " }];
+      if (mode === "missing") delete data[key];
+      assert.equal(getSections(data)[key], false);
+      const active = getActiveCatalogSections(data);
+      assert.equal(active.length, 5);
+      assert.ok(!active.some(({ id }) => id === key));
+      assert.equal(data.catalogComposition.sections.length, 6);
+    }
+    const data = structuredClone(portfolio);
+    data[key].items = [{ name: " " }, { title: "Una entrada válida" }];
+    assert.equal(getSections(data)[key], true);
+    assert.equal(getActiveCatalogSections(data).length, 6);
+  });
+}
 
 test("el correo demo permanece visible sin destino, aunque se retire el aviso del footer", () => {
   const data = structuredClone(portfolio);

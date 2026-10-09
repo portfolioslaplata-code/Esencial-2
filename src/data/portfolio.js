@@ -1,5 +1,5 @@
 /**
- * Configuración de cada cliente. Esquema compatible con Esencial 1.
+ * Configuración de cada cliente. Identidad compartida y composición propia de Minimal.
  * Guardar imágenes y CV en public/ (rutas: /images/perfil.jpg, /cv.pdf).
  * Desactivar secciones con settings.sections o dejar su contenido vacío.
  */
@@ -23,13 +23,14 @@ export const portfolio = {
     sections: [
       { id: "about", type: "standard", catalogIds: ["about"], label: "Sobre mí" },
       { id: "services", type: "standard", catalogIds: ["services"], label: "Servicios" },
-      { id: "projects", type: "standard", catalogIds: ["projects"], label: "Proyectos" },
+      { id: "achievements", type: "standard", catalogIds: ["achievements"], label: "Logros" },
       {
         id: "journey",
         type: "standard",
         catalogIds: ["experience", "education"],
         label: "Experiencia + Formación",
       },
+      { id: "certifications", type: "standard", catalogIds: ["certifications"], label: "Certificaciones" },
       { id: "skills", type: "standard", catalogIds: ["skills"], label: "Habilidades" },
     ],
     complements: [],
@@ -50,7 +51,8 @@ export const portfolio = {
   settings: {
     sections: {
       about: true,
-      projects: true,
+      achievements: true,
+      certifications: true,
       services: true,
       education: true,
       experience: true,
@@ -64,7 +66,7 @@ export const portfolio = {
       url: "",
     },
     demoNotice:
-      "Modelo de demostración · Personas, instituciones y proyectos ficticios.",
+      "Perfil ficticio · Trayectoria, logros y certificaciones de muestra.",
   },
   seo: {
     title: "Martín Acosta — Consultoría en gestión",
@@ -133,41 +135,35 @@ export const portfolio = {
       },
     ],
   },
-  projects: {
-    eyebrow: "PROYECTOS SELECCIONADOS",
-    title: "El método, puesto en práctica.",
+  achievements: {
+    eyebrow: "LOGROS PROFESIONALES",
+    title: "Aportes que toman forma.",
     description:
-      "Una selección de trabajos que conectan el análisis con soluciones concretas.",
+      "Hitos que muestran cómo el análisis se convierte en herramientas concretas de trabajo.",
     items: [
       {
         id: "operaciones",
-        name: "Una operación más simple",
+        name: "Un circuito de compras documentado",
         category: "Procesos y organización",
         year: "2025",
-        image: null,
         description:
-          "Relevamiento y rediseño del circuito de compras de una pyme. Documentación de tareas, roles y puntos de control para una gestión más ordenada.",
-        url: "",
+          "Organicé las etapas de compra en un procedimiento compartido, con responsables, criterios de aprobación y puntos de control definidos para el equipo.",
       },
       {
         id: "indicadores",
-        name: "Información para decidir",
+        name: "Una herramienta común de seguimiento",
         category: "Análisis de gestión",
         year: "2025",
-        image: null,
         description:
-          "Diseño de un tablero de indicadores para un equipo de servicios profesionales. Una lectura compartida de los objetivos y su evolución.",
-        url: "",
+          "Desarrollé un reporte de gestión que reúne indicadores, fuentes de información y una rutina de actualización, para revisar los avances en las reuniones de equipo.",
       },
       {
         id: "planificacion",
-        name: "Un rumbo compartido",
+        name: "Prioridades convertidas en un plan",
         category: "Planificación estratégica",
         year: "2024",
-        image: null,
         description:
-          "Acompañamiento a una organización en la definición de prioridades, con un plan de trabajo y un esquema de seguimiento trimestral.",
-        url: "",
+          "Facilité la definición de prioridades y las consolidé en una hoja de ruta con acciones, responsables y momentos de revisión acordados.",
       },
     ],
   },
@@ -206,12 +202,41 @@ export const portfolio = {
     {
       id: "especializacion",
       period: "2024",
-      title: "Análisis de datos para la gestión",
+      title: "Gestión de equipos y comunicación",
       institution: "Formación complementaria",
       description:
-        "Visualización de información, indicadores y herramientas de inteligencia de negocios.",
+        "Aprendizaje sobre coordinación de equipos, comunicación organizacional y trabajo colaborativo.",
     },
   ],
+  certifications: {
+    eyebrow: "CERTIFICACIONES",
+    title: "Conocimientos con foco.",
+    description:
+      "Acreditaciones específicas vinculadas con mi práctica profesional. Son ejemplos ficticios, sin credenciales verificables.",
+    items: [
+      {
+        id: "gestion-proyectos",
+        name: "Gestión de proyectos",
+        institution: "Entidad emisora de muestra",
+        year: "2025",
+        area: "Planificación y seguimiento",
+      },
+      {
+        id: "analisis-datos",
+        name: "Análisis y visualización de datos",
+        institution: "Entidad emisora de muestra",
+        year: "2025",
+        area: "Información para la gestión",
+      },
+      {
+        id: "mejora-procesos",
+        name: "Mejora continua de procesos",
+        institution: "Entidad emisora de muestra",
+        year: "2024",
+        area: "Organización y métodos",
+      },
+    ],
+  },
   skills: {
     eyebrow: "COMPETENCIAS",
     title: "Herramientas con propósito.",
@@ -256,8 +281,9 @@ export const portfolio = {
     nav: {
       about: "Perfil",
       services: "Servicios",
-      projects: "Proyectos",
+      achievements: "Logros",
       journey: "Trayectoria",
+      certifications: "Certificaciones",
       skills: "Competencias",
       contact: "Contacto",
     },
@@ -269,6 +295,5 @@ export const portfolio = {
     education: "Formación",
     backToTop: "Volver arriba",
     rights: "Todos los derechos reservados.",
-    projectLink: "Ver proyecto",
   },
 };

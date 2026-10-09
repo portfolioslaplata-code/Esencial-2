@@ -169,8 +169,9 @@ export default function App({ data = portfolio }) {
   const order = [
     "about",
     "services",
-    "projects",
+    "achievements",
     "journey",
+    "certifications",
     "skills",
     "contact",
   ].filter((key) => sections[key]);
@@ -353,46 +354,29 @@ export default function App({ data = portfolio }) {
           </section>
         )}
 
-        {sections.projects && (
+        {sections.achievements && (
           <section
             className="section shell"
-            id={sectionIds.projects}
-            aria-labelledby="projects-title"
+            id={sectionIds.achievements}
+            aria-labelledby="achievements-title"
           >
             <SectionHeading
-              data={data.projects}
-              number={number("projects")}
-              id="projects-title"
+              data={data.achievements}
+              number={number("achievements")}
+              id="achievements-title"
             />
-            <div className="project-list">
-              {namedItems(data.projects.items).map((item, index) => (
-                <article className="project-row" key={item.id ?? index}>
+            <div className="achievement-list">
+              {namedItems(data.achievements.items).map((item, index) => (
+                <article className="achievement-row" key={item.id ?? index}>
                   <span className="item-index">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <div className="project-title">
-                    <p className="project-category">{item.category}</p>
-                    <h3>{item.name}</h3>
-                    {item.image?.src && (
-                      <Photo
-                        key={item.image.src}
-                        photo={item.image}
-                        className="project-image"
-                      />
-                    )}
+                  <div className="achievement-title">
+                    {item.category && <p className="achievement-category">{item.category}</p>}
+                    <h3>{item.name || item.title}</h3>
                   </div>
                   <p className="body-copy">{item.description}</p>
-                  <div className="project-end">
-                    <span>{item.year}</span>
-                    {safeUrl(item.url) && (
-                      <a
-                        href={item.url}
-                        aria-label={`${data.ui.projectLink ?? item.name} — ${item.name}`}
-                      >
-                        <Icon name="external" />
-                      </a>
-                    )}
-                  </div>
+                  {item.year && <span className="achievement-year">{item.year}</span>}
                 </article>
               ))}
             </div>
@@ -430,6 +414,32 @@ export default function App({ data = portfolio }) {
                 )}
               </div>
             </div>
+          </section>
+        )}
+
+        {sections.certifications && (
+          <section
+            className="section shell certifications-section"
+            id={sectionIds.certifications}
+            aria-labelledby="certifications-title"
+          >
+            <SectionHeading
+              data={data.certifications}
+              number={number("certifications")}
+              id="certifications-title"
+            />
+            <ul className="certification-list">
+              {namedItems(data.certifications.items).map((item, index) => (
+                <li className="certification-item" key={item.id ?? index}>
+                  <div>
+                    <h3>{item.name || item.title}</h3>
+                    {item.institution && <p className="certification-institution">{item.institution}</p>}
+                  </div>
+                  {item.area && <p className="certification-area">{item.area}</p>}
+                  {item.year && <span className="certification-year">{item.year}</span>}
+                </li>
+              ))}
+            </ul>
           </section>
         )}
 

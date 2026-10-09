@@ -10,12 +10,14 @@ La oferta vigente es **Portfolio Base + secciones estándar/avanzadas + compleme
 
 - React + Vite + JavaScript + Tailwind CSS mediante `@tailwindcss/vite`. One-page estática, actualmente sin backend, CMS ni Analytics; conservar la simplicidad sin convertir esa implementación en una restricción comercial por plan.
 - `src/data/portfolio.js` centraliza datos personales, textos, enlaces, SEO, `settings` y `theme`. No hardcodear contenido del cliente en componentes ni duplicar colores fuera de sus tokens.
-- `catalogComposition` declara Base y cinco bloques estándar en orden visual: Sobre mí, Servicios, Proyectos, Experiencia + Formación y Habilidades. No hay avanzadas ni complementos activos (`cv: null`). `getActiveCatalogSections` reutiliza `getSections`, excluye bloques ocultos/vacíos y expone `activeCatalogIds` sin modificar la declaración.
+- `catalogComposition` declara Base y seis bloques estándar en orden visual: Sobre mí, Servicios, Logros, Experiencia + Formación, Certificaciones y Habilidades. No hay avanzadas ni complementos activos (`cv: null`). `getActiveCatalogSections` reutiliza `getSections`, excluye bloques ocultos/vacíos y expone `activeCatalogIds` sin modificar la declaración.
 - `src/App.jsx` compone la página y sus componentes locales; `src/components/Icon.jsx` reúne iconos SVG. Reutilizar los elementos existentes sin reorganizar por rutina.
 - `src/lib/portfolio.js` centraliza visibilidad, filtrado de contenido, `safeUrl` y resolución de CTA. Una sección deshabilitada prevalece sobre sus datos; ocultar bloques vacíos y enlaces hacia secciones no visibles.
-- Experiencia y formación comparten la introducción `journey`; admitir trayectoria parcial y recalcular la numeración visible. Fotos, imágenes de proyectos, enlaces y CV son opcionales; mantener la tarjeta de identidad sin foto.
+- Experiencia y formación comparten la introducción `journey`; admitir trayectoria parcial y recalcular la numeración visible. Fotos, enlaces y CV son opcionales; mantener la tarjeta de identidad sin foto y el CV desactivado en esta demo.
 - Journey cuenta como un solo bloque estándar asociado a `experience` y `education`, incluso con una sola columna; su línea visual no es una Timeline avanzada. La numeración de `App.jsx` incluye Contacto, pero el conteo comercial lo excluye por pertenecer a Base.
-- Conservar compatibilidad conceptual con los datos de Editorial: identidad en la raíz, `projects.items`, `services.items`, `experience`, `education`, `skills.groups` y `ui`. `theme` y `ui.projectLink` son extensiones opcionales con fallbacks. No imponer igualdad de schemas ni copiar componentes sin pedido.
+- Logros reemplaza Proyectos: `achievements.items` presenta aportes realizados y cualitativos, sin métricas inventadas. `certifications.items` es independiente y muestra acreditaciones puntuales, diferenciadas de la formación académica/general de Journey. Sus datos de demo deben identificarse como ficticios, sin logos, enlaces o credenciales de entidades reales.
+- Ambas secciones usan `settings.sections`, `namedItems` y la visibilidad existente. Los anchors son `#logros` y `#certificaciones`; no conservar destinos públicos a `#trabajos`. Contacto lleva el número 07 cuando los seis bloques están visibles, sin sumarse al conteo comercial.
+- Conservar compatibilidad conceptual con los datos de Editorial: identidad en la raíz, `services.items`, `experience`, `education`, `skills.groups` y `ui`. Minimal tiene `achievements.items` y `certifications.items`, sin render de Proyectos. `theme` conserva fallbacks. No imponer igualdad de schemas ni copiar componentes sin pedido.
 
 ## Dirección visual y calidad
 
@@ -27,11 +29,11 @@ La oferta vigente es **Portfolio Base + secciones estándar/avanzadas + compleme
 ## SEO y operación
 
 - `src/lib/seo.js` y `vite.config.js` generan metadatos en HTML desde los datos. Conservar título, descripción, idioma y Open Graph; canonical depende de `seo.siteUrl`. No inventar un dominio ni asumir prerenderizado del cuerpo.
-- Contacto por enlaces configurados, sin simular envíos. No mostrar CV ni proyectos enlazados sin destino válido. Reconstruir tras cambiar datos de producción.
+- Contacto por enlaces configurados, sin simular envíos. No mostrar CV sin destino válido ni enlazar certificaciones ficticias. Reconstruir tras cambiar datos de producción.
 - `contact.emailIsDemo` conserva el correo ficticio como texto sin destino. `getContactItems` incluye la muestra y `getContactLinks` solo canales accionables; el CTA usa el primer canal real o se reemplaza por `contact.demoLabel` estático. `contact.demoDescription` explica la muestra. Solo quitar la marca al configurar un correo real; retirar el aviso del footer no activa canales.
 - No introducir nuevas funciones comerciales ni activar Analytics por iniciativa propia. Consultar `../../AGENTS.md` y `../producto-docs/` si están disponibles; sus referencias históricas no redefinen la oferta de la Landing.
 - Trabajar dentro de este repo salvo pedido que abarque otros. No hacer push, deploy ni comprar dominios sin pedido; nunca force push.
 
 ## Validación
 
-Consultar `package.json`. Tras cambios relevantes de implementación: `npm run lint` (Oxlint), `npm test` y `npm run build`. Las pruebas cubren composición, visibilidad, Journey parcial, contacto y SEO. No existe un script de pruebas de navegador: revisar responsive, teclado, numeración y contenido opcional cuando cambie la UI. Para cambios solo de instrucciones, revisar documentación y diff.
+Consultar `package.json`. Tras cambios relevantes de implementación: `npm run lint` (Oxlint), `npm test` y `npm run build`. Las pruebas cubren composición, visibilidad, Journey parcial, contacto y SEO; las de render usan React y Vite existentes para comprobar números y anchors reales. No existe un script de pruebas de navegador: revisar responsive, teclado, numeración y contenido opcional cuando cambie la UI. Para cambios solo de instrucciones, revisar documentación y diff.

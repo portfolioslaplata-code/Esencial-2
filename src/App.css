@@ -414,56 +414,70 @@ figcaption {
   letter-spacing: -0.4px;
   margin-bottom: 12px;
 }
-.project-row {
+.achievement-row {
   padding-block: 28px;
   border-top: 1px solid var(--border);
   display: grid;
-  grid-template-columns: 32px 1.1fr 1.2fr 55px;
+  grid-template-columns: 32px minmax(0, 1.1fr) minmax(0, 1.2fr) 55px;
   gap: 27px;
   align-items: start;
 }
-.project-row:last-child {
+.achievement-row:last-child {
   border-bottom: 1px solid var(--border);
 }
-.project-row > .item-index {
+.achievement-row > .item-index {
   padding-top: 4px;
 }
-.project-category {
+.achievement-category {
   font-size: 10px;
   color: var(--accent);
   margin-bottom: 6px;
 }
-.project-title h3 {
+.achievement-title h3 {
   font-size: 19px;
   font-weight: 500;
   letter-spacing: -0.5px;
 }
-.project-end {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 13px;
+.achievement-year {
+  text-align: right;
   font-size: 11px;
   color: var(--muted);
 }
-.project-end a {
-  width: 36px;
-  height: 36px;
+.certifications-section {
+  border-bottom: 1px solid var(--border);
+}
+.certification-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.certification-item {
   display: grid;
-  place-items: center;
-  border: 1px solid var(--border);
-  border-radius: 50%;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) 55px;
+  align-items: center;
+  gap: 27px;
+  border-top: 1px solid var(--border);
+  padding-block: 22px;
+}
+.certification-item h3 {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.3px;
+}
+.certification-institution {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 5px;
+}
+.certification-area {
   color: var(--accent);
+  font-size: 12px;
 }
-.project-end a:hover {
-  background: var(--soft);
-}
-.project-image {
-  margin-top: 16px;
-}
-.project-image img {
-  aspect-ratio: 16/10;
-  border-radius: 4px;
+.certification-year {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 .journey-grid {
   column-gap: 85px;
@@ -824,21 +838,33 @@ a.button-light:hover {
   .service-top {
     margin-bottom: 24px;
   }
-  .project-row {
+  .achievement-row {
     grid-template-columns: 23px minmax(0, 1fr) 37px;
     gap: 15px;
     padding-block: 24px;
   }
-  .project-row > .body-copy {
+  .achievement-row > .body-copy {
     grid-column: 2/3;
     grid-row: 2;
   }
-  .project-end {
+  .achievement-year {
     grid-column: 3;
     grid-row: 1/3;
   }
-  .project-title h3 {
+  .achievement-title h3 {
     font-size: 18px;
+  }
+  .certification-item {
+    grid-template-columns: minmax(0, 1fr) 37px;
+    gap: 8px 15px;
+    align-items: start;
+  }
+  .certification-area {
+    grid-column: 1;
+  }
+  .certification-year {
+    grid-column: 2;
+    grid-row: 1;
   }
   .journey-grid {
     gap: 35px;
