@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { portfolio } from "./data/portfolio";
 import {
-  getContactLinks,
+  getContactItems,
   getSections,
   hasText,
   namedItems,
@@ -164,8 +164,8 @@ function JourneyList({ items, label, id }) {
 
 export default function App({ data = portfolio }) {
   const sections = getSections(data);
-  const contacts = getContactLinks(data);
-  const contact = contacts[0];
+  const contacts = getContactItems(data);
+  const contact = contacts.find((item) => safeUrl(item.url));
   const order = [
     "about",
     "services",
@@ -479,21 +479,31 @@ export default function App({ data = portfolio }) {
                 <p className="contact-description">
                   {data.contact?.description}
                 </p>
-                {contact && (
+                {contact ? (
                   <a className="button button-light" href={contact.url}>
                     {data.contact?.cta || contact.label}
                     <Icon name="arrow" />
                   </a>
-                )}
+                ) : data.contact?.demoLabel ? (
+                  <span className="button button-light">
+                    {data.contact.demoLabel}
+                    <Icon name="mail" />
+                  </span>
+                ) : null}
               </div>
               <div className="contact-details">
                 <Icon name="mail" className="contact-icon" />
                 <div className="contact-links">
-                  {contacts.map((link, index) => (
+                  {contacts.map((link, index) => safeUrl(link.url) ? (
                     <a key={index} href={link.url}>
                       {link.label}
                       <Icon name="external" />
                     </a>
+                  ) : (
+                    <span className="contact-demo" key={index} title={data.contact?.demoDescription}>
+                      {link.label}
+                      <span className="sr-only"> {data.contact?.demoDescription}</span>
+                    </span>
                   ))}
                 </div>
                 {data.contact?.note && <p>{data.contact.note}</p>}

@@ -21,17 +21,26 @@ export function safeUrl(value) {
   return /^(https?:\/\/|mailto:|tel:|\/(?!\/)|#)/i.test(url) ? url : undefined;
 }
 
-export function getContactLinks(data) {
+export function getContactItems(data) {
   return [
     ...(hasText(data.email)
-      ? [{ label: data.email, url: `mailto:${data.email}` }]
+      ? [{
+          label: data.email,
+          url: data.contact?.emailIsDemo ? null : `mailto:${data.email}`,
+          demo: Boolean(data.contact?.emailIsDemo),
+        }]
       : []),
     ...(hasText(data.phone)
       ? [{ label: data.phone, url: `tel:${data.phone.replace(/[^+\d]/g, "")}` }]
       : []),
     ...(data.socials ?? []),
     ...(data.externalLinks ?? []),
-  ].filter((link) => hasText(link?.label) && safeUrl(link?.url));
+  ].filter((item) => hasText(item?.label) && (item.demo || safeUrl(item?.url)));
+}
+
+// Conserva la API de canales accionables, sin incluir datos de muestra.
+export function getContactLinks(data) {
+  return getContactItems(data).filter((item) => safeUrl(item.url));
 }
 
 export function getSections(data) {
@@ -56,8 +65,20 @@ export function getSections(data) {
     education,
     journey: experience || education,
     skills: enabled("skills") && skillGroups(data).length > 0,
-    contact: enabled("contact") && getContactLinks(data).length > 0,
+    contact: enabled("contact") && getContactItems(data).length > 0,
   };
+}
+
+// Cuenta bloques visibles; Journey combinado sigue contando una sola vez.
+// La declaración se conserva y activeCatalogIds refleja el contenido parcial.
+export function getActiveCatalogSections(data) {
+  const visible = getSections(data);
+  return (data.catalogComposition?.sections ?? [])
+    .filter((section) => visible[section.id])
+    .map((section) => ({
+      ...section,
+      activeCatalogIds: section.catalogIds.filter((id) => visible[id]),
+    }));
 }
 
 export function resolveAction(action, sections) {

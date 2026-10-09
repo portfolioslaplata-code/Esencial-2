@@ -16,6 +16,24 @@ export const portfolio = {
   photo: null, // { src: '/images/perfil.jpg', alt: 'Retrato de…', position: '50% 50%', caption: '' }
   socials: [], // { label: 'LinkedIn', url: 'https://www.linkedin.com/in/usuario/' }
   externalLinks: [],
+  // Declaración local en orden visual; getActiveCatalogSections filtra lo visible.
+  // IDs del catálogo de la Landing, sin precios ni límites de contenido.
+  catalogComposition: {
+    base: ["navigation", "hero", "contact", "footer"],
+    sections: [
+      { id: "about", type: "standard", catalogIds: ["about"], label: "Sobre mí" },
+      { id: "services", type: "standard", catalogIds: ["services"], label: "Servicios" },
+      { id: "projects", type: "standard", catalogIds: ["projects"], label: "Proyectos" },
+      {
+        id: "journey",
+        type: "standard",
+        catalogIds: ["experience", "education"],
+        label: "Experiencia + Formación",
+      },
+      { id: "skills", type: "standard", catalogIds: ["skills"], label: "Habilidades" },
+    ],
+    complements: [],
+  },
   theme: {
     background: "#f7f8f6",
     surface: "#ffffff",
@@ -223,6 +241,9 @@ export const portfolio = {
     ],
   },
   contact: {
+    emailIsDemo: true,
+    demoLabel: "Contacto de muestra",
+    demoDescription: "Correo ficticio. No recibe mensajes.",
     eyebrow: "CONTACTO",
     title: "Todo empieza con",
     accent: "una buena conversación.",

@@ -577,7 +577,7 @@ figcaption {
   background: var(--inverse);
   color: var(--accent);
 }
-.button-light:hover {
+a.button-light:hover {
   background: var(--soft);
 }
 .contact-details {
@@ -598,7 +598,8 @@ figcaption {
   display: grid;
   gap: 16px;
 }
-.contact-links a {
+.contact-links a,
+.contact-links .contact-demo {
   display: flex;
   gap: 10px;
   justify-content: space-between;
